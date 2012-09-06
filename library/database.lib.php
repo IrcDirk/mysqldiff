@@ -70,7 +70,8 @@ class cConnection {
 		static $connectionfunctions = array(1 => "mysql_pconnect", 0 => "mysql_connect");
 
 		$this->_con = @$connectionfunctions[$persistent ? 1 : 0]($this->_hostname, $this->_username, $this->_password);
-		return isset($this->_con) && trim($this->_con) != "";
+                // trim wasn't returningn a non-empty string for a valid connection
+                return isset($this->_con);// && trim($this->_con) != "";
 	}
 
 	function query($stat, $file=NULL, $line=NULL) {
