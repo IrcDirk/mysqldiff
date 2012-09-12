@@ -109,7 +109,11 @@ class cConnection {
 				// starting position of the comment depends on the comment type
 				$start_of_comment = ($sql[$i] == '#' ? $i : $i-2);
 				// search for new line i.e. \n or \r (Mac style)
-				$end_of_comment = (strpos($sql, "\012", $i+2) !== FALSE ? strpos($sql, "\012", $i+2) : strpos($sql, "\015", $i+2) ) + 1;
+				if (false !== ($end_of_comment = strpos($sql, "\012", $i))) {
+					++ $end_of_comment;
+				} else if (false !== ($end_of_comment = strpos($sql, "\015", $i))) {
+					++ $end_of_comment;
+				}
 				if (!$end_of_comment) {
 					// no eol found after '#', add the parsed part to the returned
 					// array if required and exit
@@ -120,7 +124,7 @@ class cConnection {
 				} else {
 					$sql          = substr($sql, 0, $start_of_comment) . ltrim(substr($sql, $end_of_comment));
 					$sql_len      = strlen($sql);
-					$i--;
+					$i = $start_of_comment - 1;
 				} // end if...else
 			} else if ( $server_version < 32270 && ($sql[$i] == '!' && $i > 1  && $sql[$i-2] . $sql[$i-1] == '/*') ) {
 				$sql[$i] = ' ';
@@ -908,4 +912,5 @@ class cCommandBuilder {
 
 }
 
-?>
+?>
+

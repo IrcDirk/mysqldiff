@@ -189,7 +189,7 @@ require_once("library/resources.lib.php");
 $_SESSION["target"]["hostname"] = $_SESSION["source"]["hostname"] = $md->hostName;
 $_SESSION["target"]["username"] = $_SESSION["source"]["username"] = $md->dbUser;
 $_SESSION["target"]["password"] = $_SESSION["source"]["password"] = $md->dbUserPw;
-var_dump($md);
+
 if( !empty($md->sourceDb) )
 {
     $_SESSION["source"]["database"] = $md->sourceDb;
@@ -250,7 +250,6 @@ else echo "<pre>$result</pre><br>";
 
 function checkConnection($data, &$cfg, &$info) {
 	GLOBAL $php_errormsg;
-        debug_print_backtrace();
 
 	$result = FALSE;
 
